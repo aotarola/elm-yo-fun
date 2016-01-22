@@ -1,8 +1,7 @@
 module Main where
-
+import Task
 import ElmTest exposing (..)
-import Graphics.Element exposing (Element)
-
+import Console
 import CounterTest exposing (all)
 
 allTests : Test
@@ -11,6 +10,6 @@ allTests =
     [ CounterTest.all
     ]
 
-main : Element
-main =
-  elementRunner allTests
+port runner : Signal (Task.Task x ())
+port runner =
+    Console.run (consoleRunner allTests)

@@ -6,9 +6,7 @@ install:
   - npm install -g elm@0.16.0 casperjs http-server
   - elm-package install -y
 before_script:
-  - elm-make ./src/elm/TestRunner.elm --output test.html
-  - http-server '.' &
-  # Wait for compilation is done.
-  - until $(curl --output /dev/null --silent --head --fail http://127.0.0.1:8080/test.html); do echo "." && sleep 1; done
+  - elm-make --yes --output raw-test.js tests/Tests.elm
+  - bash elm-stuff/packages/laszlopandy/elm-console/1.0.2/elm-io.sh raw-test.js test.js
 
-script: casperjs test runTests.js
+script: node test.js
